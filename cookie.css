@@ -1,0 +1,9 @@
+body {
+  background-color: rgb(234, 156, 206);
+}
+.image {
+  display: flex;
+  justify-content: center;
+  height: 25vh;
+  width: auto;
+}
