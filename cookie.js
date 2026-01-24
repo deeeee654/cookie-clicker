@@ -30,7 +30,21 @@ async function fetchData() {
   console.log("JSON Data:", datas);
   for (let i = 0; i < datas.length; i++) {
     const paragraph = document.createElement("p");
-    paragraph.textContent = datas[i].name;
+    const buttonn = document.createElement("button");
+    buttonn.innerText = "Buy";
+    buttonn.addEventListener("click", function () {
+      cookieCount++;
+    });
+    paragraph.textContent =
+      datas[i].name +
+      " | " +
+      datas[i].id +
+      " | " +
+      datas[i].cost +
+      " | " +
+      datas[i].increase +
+      " ";
+    paragraph.appendChild(buttonn);
 
     const apiData = document.getElementById("data");
 
