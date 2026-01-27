@@ -1,7 +1,11 @@
-console.log("This is my cookie clicker page.");
+console.log("This is my cookie clicker page!");
 
-let cookieCount = 0;
-let cps = 1;
+let cookieCount = localStorage.getItem("cookiecount")
+  ? parseInt(localStorage.getItem("cookiecount"))
+  : 0;
+let cps = localStorage.getItem("cps")
+  ? parseInt(localStorage.getItem("cps"))
+  : 0;
 let fetchstuff = "https://cookie-upgrade-api.vercel.app/api/upgrades";
 
 const cookieCounter = document.getElementById("cookiecount");
@@ -9,16 +13,19 @@ const cpsDisplay = document.getElementById("cpscount");
 const image = document.querySelector("img");
 
 cookieCounter.innerText = cookieCount;
+cpsDisplay.innerText = cps;
 
 image.addEventListener("click", function () {
   cookieCount++;
   console.log(cookieCount);
   cookieCounter.innerText = cookieCount;
+  localStorage.setItem("cookiecount", cookieCount);
 });
 
 setInterval(function () {
-  cookieCount++;
+  cookieCount = cookieCount + cps;
   cookieCounter.innerText = cookieCount;
+  localStorage.setItem("cookiecount", cookieCount);
 }, 1000);
 
 async function fetchData() {
@@ -33,13 +40,24 @@ async function fetchData() {
     const buttonn = document.createElement("button");
     buttonn.innerText = "Buy";
     buttonn.addEventListener("click", function () {
-      cookieCount++;
+      if (cookieCount >= datas[i].cost) {
+        cookieCount -= datas[i].cost;
+        cps += datas[i].increase;
+        alert("You bought " + datas[i].name);
+      } else {
+        alert("You are short of cookies!!");
+      }
+      {
+        cookieCounter.innerText = cookieCount;
+        cpsDisplay.innerText = cps;
+        localStorage.setItem("cookiecount", cookieCount);
+        localStorage.setItem("cps", cps);
+      }
     });
     paragraph.textContent =
       datas[i].name +
       " | " +
-      datas[i].id +
-      " | " +
+      "Cost - " +
       datas[i].cost +
       " | " +
       datas[i].increase +
